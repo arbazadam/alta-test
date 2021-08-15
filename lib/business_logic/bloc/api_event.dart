@@ -1,4 +1,12 @@
 part of 'api_bloc.dart';
 
-@immutable
-abstract class ApiEvent {}
+abstract class ApiEvent extends Equatable {
+  const ApiEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
+class GetUsersFromTheApi extends ApiEvent {
+  GetUsersFromTheApi();
+}
