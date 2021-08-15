@@ -15,10 +15,10 @@ class Apis {
             .map((p) => Users.fromJson(p))
             .toList();
       }
-      print(_userList);
+     
       return _userList;
     } catch (e) {
-      return [];
+      throw Exception(e.toString());
     }
   }
 }

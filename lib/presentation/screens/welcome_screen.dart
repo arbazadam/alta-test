@@ -8,7 +8,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final users = BlocProvider.of<ApiBloc>(context, listen: false)
+    BlocProvider.of<ApiBloc>(context, listen: false)
         .add(GetUsersFromTheApi());
     return Scaffold(
       body: SafeArea(
@@ -23,14 +23,18 @@ class WelcomeScreen extends StatelessWidget {
                     style: TextStyle(
                         fontSize: screenSize.width * .08,
                         fontWeight: FontWeight.bold)),
-                Flexible(child: BlocBuilder(
+                Flexible(child: BlocBuilder<ApiBloc,ApiState>(
                   builder: (context, state) {
-                    if (state is ResultsSuccessfulState)
-                      return Row(
-                        children: [Text('Arbaz')],
+                    if(state is ApiInitial)
+                    {
+                      return CircularProgressIndicator();
+                    }
+                    else if (state is ResultsSuccessfulState)
+                      return Wrap(
+                        children: [...state.users.map((e)=>SingleUser(e))],
                       );
                     else {
-                      return Text('No results');
+                      return Text('No results',style: TextStyle(color: Colors.red));
                     }
                   },
                 ))
